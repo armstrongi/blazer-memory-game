@@ -1,0 +1,101 @@
+@page "/memory"
+
+<h3>Memory Card Game</h3>
+
+<div class="game-board">
+    @for (int i = 0; i < Cards.Count; i++)
+    {
+        <button class="card" @onclick="() => FlipCard(i)" disabled="@DisableCard(i)">
+            @if (Cards[i].IsFlipped || Cards[i].IsMatched)
+            {
+                <span>@Cards[i].Value</span>
+            }
+            else
+            {
+                <span>?</span>
+            }
+        </button>
+    }
+</div>
+
+<p>Moves: @Moves</p>
+<p>@Message</p>
+
+@code {
+    private class CardModel
+    {
+        public string Value { get; set; }
+        public bool IsFlipped { get; set; }
+        public bool IsMatched { get; set; }
+    }
+
+    private List<CardModel> Cards = new();
+    private int Moves = 0;
+    private int flippedIndex1 = -1;
+    private int flippedIndex2 = -1;
+    private string Message = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        StartGame();
+    }
+
+    private void StartGame()
+    {
+        var values = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H" };
+        var allValues = values.Concat(values).OrderBy(_ => Guid.NewGuid()).ToList();
+        Cards = allValues.Select(v => new CardModel { Value = v }).ToList();
+        Moves = 0;
+        flippedIndex1 = -1;
+        flippedIndex2 = -1;
+        Message = string.Empty;
+    }
+
+    private async Task FlipCard(int index)
+    {
+        if (Cards[index].IsFlipped || Cards[index].IsMatched || flippedIndex2 != -1)
+            return;
+
+        Cards[index].IsFlipped = true;
+
+        if (flippedIndex1 == -1)
+        {
+            flippedIndex1 = index;
+        }
+        else
+        {
+            flippedIndex2 = index;
+            Moves++;
+            StateHasChanged();
+            await Task.Delay(1000);
+            CheckForMatch();
+            StateHasChanged();
+        }
+    }
+
+    private bool DisableCard(int index)
+    {
+        return Cards[index].IsMatched || Cards[index].IsFlipped;
+    }
+    private void CheckForMatch()
+    {
+        if (Cards[flippedIndex1].Value == Cards[flippedIndex2].Value)
+        {
+            Cards[flippedIndex1].IsMatched = true;
+            Cards[flippedIndex2].IsMatched = true;
+            Message = "Match!";
+        }
+        else
+        {
+            Cards[flippedIndex1].IsFlipped = false;
+            Cards[flippedIndex2].IsFlipped = false;
+            Message = "Try again!";
+        }
+        flippedIndex1 = -1;
+        flippedIndex2 = -1;
+        if (Cards.All(c => c.IsMatched))
+        {
+            Message = $"You won in {Moves} moves!";
+        }
+    }
+}

@@ -1,0 +1,22 @@
+/* Basic styles for the memory card game */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 60px);
+    grid-gap: 10px;
+    margin: 20px 0;
+}
+.card {
+    width: 60px;
+    height: 80px;
+    font-size: 2rem;
+    background: #f0f0f0;
+    border: 2px solid #888;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.card:disabled {
+    background: #d0ffd0;
+    color: #333;
+    cursor: default;
+}
