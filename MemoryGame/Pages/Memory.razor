@@ -5,10 +5,11 @@
 <div class="game-board">
     @for (int i = 0; i < Cards.Count; i++)
     {
-        <button class="card" @onclick="() => FlipCard(i)" disabled="@DisableCard(i)">
-            @if (Cards[i].IsFlipped || Cards[i].IsMatched)
+        var index = i; // Capture the current value of i
+        <button class="card" @onclick="() => FlipCard(index)" disabled="@DisableCard(index)">
+            @if (Cards[index].IsFlipped || Cards[index].IsMatched)
             {
-                <span>@Cards[i].Value</span>
+                <span>@Cards[index].Value</span>
             }
             else
             {
@@ -24,7 +25,7 @@
 @code {
     private class CardModel
     {
-        public string Value { get; set; }
+        public string? Value { get; set; }
         public bool IsFlipped { get; set; }
         public bool IsMatched { get; set; }
     }
@@ -49,10 +50,14 @@
         flippedIndex1 = -1;
         flippedIndex2 = -1;
         Message = string.Empty;
+        StateHasChanged();
     }
 
     private async Task FlipCard(int index)
-    {
+    {                
+        if (index < 0 || index >= Cards.Count)
+            return;
+
         if (Cards[index].IsFlipped || Cards[index].IsMatched || flippedIndex2 != -1)
             return;
 
@@ -74,7 +79,7 @@
     }
 
     private bool DisableCard(int index)
-    {
+    {        
         return Cards[index].IsMatched || Cards[index].IsFlipped;
     }
     private void CheckForMatch()
