@@ -20,3 +20,10 @@
     color: #333;
     cursor: default;
 }
+.card img {
+  width: 44px;
+  height: 48px;
+  object-fit: fill;
+  display: block;
+  margin: 0 auto;
+}

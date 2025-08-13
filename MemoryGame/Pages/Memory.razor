@@ -9,7 +9,7 @@
         <button class="card" @onclick="() => FlipCard(index)" disabled="@DisableCard(index)">
             @if (Cards[index].IsFlipped || Cards[index].IsMatched)
             {
-                <span>@Cards[index].Value</span>
+                <img src="@Cards[index].ImagePath" />
             }
             else
             {
@@ -20,12 +20,23 @@
 </div>
 
 <p>Moves: @Moves</p>
-<p>@Message</p>
+@if (Message.StartsWith("You won"))
+{
+    <p>
+        @Message
+        <button @onclick="StartGame" style="margin-left:1em;">Restart Game</button>
+    </p>
+}
+else
+{
+    <p>@Message</p>
+}
 
 @code {
     private class CardModel
     {
         public string? Value { get; set; }
+        public string? ImagePath { get; set; }
         public bool IsFlipped { get; set; }
         public bool IsMatched { get; set; }
     }
@@ -43,9 +54,9 @@
 
     private void StartGame()
     {
-        var values = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H" };
+        var values = new List<string> { "bear", "cat", "dog", "elephant", "fox", "frog", "penguin", "rabbit" };
         var allValues = values.Concat(values).OrderBy(_ => Guid.NewGuid()).ToList();
-        Cards = allValues.Select(v => new CardModel { Value = v }).ToList();
+        Cards = allValues.Select(v => new CardModel { Value = v, ImagePath = $"/images/{v}.png" }).ToList();
         Moves = 0;
         flippedIndex1 = -1;
         flippedIndex2 = -1;
