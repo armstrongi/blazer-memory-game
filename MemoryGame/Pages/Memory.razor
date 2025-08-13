@@ -61,7 +61,7 @@ else
 
     private void StartGame()
     {
-        var values = new List<string> { "bear", "cat", "dog", "elephant", "fox", "frog", "penguin", "rabbit" };
+        var values = new List<string> { "bear", "cat", "dog", "elephant", "fox", "frog", "penguin", "rabbit", "dolphin", "kangaroo" };
         var allValues = values.Concat(values).OrderBy(_ => Guid.NewGuid()).ToList();
         Cards = allValues.Select(v => new CardModel { Value = v, ImagePath = $"/images/{v}.png" }).ToList();
         Moves = 0;
