@@ -19,26 +19,17 @@
     }
 </div>
 
-<div class="game-info">
+<div class="game-info" style="display: flex; flex-direction: column; align-items: flex-start; gap: 0.3em;">
+    <button @onclick="StartGame">Restart Game</button>
+
     @if (LowestMoves > 0)
     {
-        <p>Best score: @LowestMoves moves</p>
+        <span>Best score: @LowestMoves moves</span>
     }
-
-    <p>Remaining Pairs: @RemainingPairs</p>
-    <p>Moves: @Moves</p>
-
-    @if (Message.StartsWith("You won"))
-    {
-        <p>
-            @Message
-            <button @onclick="StartGame" style="margin-left:1em;">Restart Game</button>
-        </p>
-    }
-    else
-    {
-        <p>@Message</p>
-    }
+    
+    <span>Remaining Pairs: @RemainingPairs</span>
+    <span>Moves: @Moves</span>    
+    <span>@Message</span>
 </div>
 
 @code {
