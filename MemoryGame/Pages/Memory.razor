@@ -19,24 +19,27 @@
     }
 </div>
 
-@if (LowestMoves > 0)
-{
-    <p>Best score: @LowestMoves moves</p>
-}
+<div class="game-info">
+    @if (LowestMoves > 0)
+    {
+        <p>Best score: @LowestMoves moves</p>
+    }
 
-<p>Moves: @Moves</p>
+    <p>Remaining Pairs: @RemainingPairs</p>
+    <p>Moves: @Moves</p>
 
-@if (Message.StartsWith("You won"))
-{
-    <p>
-        @Message
-        <button @onclick="StartGame" style="margin-left:1em;">Restart Game</button>
-    </p>
-}
-else
-{
-    <p>@Message</p>
-}
+    @if (Message.StartsWith("You won"))
+    {
+        <p>
+            @Message
+            <button @onclick="StartGame" style="margin-left:1em;">Restart Game</button>
+        </p>
+    }
+    else
+    {
+        <p>@Message</p>
+    }
+</div>
 
 @code {
     private class CardModel
@@ -126,4 +129,5 @@ else
             }
         }
     }
+    private int RemainingPairs => Cards.Count(c => !c.IsMatched) / 2;
 }
