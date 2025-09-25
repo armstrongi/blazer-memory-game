@@ -16,7 +16,7 @@
     transition: background 0.2s;
 }
 .card:disabled {
-    background: #d0ffd0;
+    background: #cdd1d3;
     color: #333;
     cursor: default;
 }
