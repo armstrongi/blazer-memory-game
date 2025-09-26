@@ -1,7 +1,7 @@
 /* Basic styles for the memory card game */
 .game-board {
     display: grid;
-    grid-template-columns: repeat(4, 100px);
+    grid-template-columns: repeat(6, 100px);
     grid-gap: 10px;
     margin: 20px 0;
 }
