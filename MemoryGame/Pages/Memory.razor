@@ -33,6 +33,14 @@
 </div>
 
 @code {
+    // Central list (was inline inside StartGame)
+    private static readonly List<string> AllAnimals = new()
+    {
+        "bear","cat","chameleon","crab","dog","dolphin","elephant","fox","frog","gorilla",
+        "kangaroo","koala","leopard","lobster","monkey","octopus","panther","parrot","penguin",
+        "rabbit","seahorse","seal","shark","sloth","snake","starfish","tiger","toucan","turtle","whale"
+    };
+
     private class CardModel
     {
         public string? Value { get; set; }
@@ -55,9 +63,30 @@
 
     private void StartGame()
     {
-        var values = new List<string> { "bear", "cat", "dog", "elephant", "fox", "frog", "penguin", "rabbit", "dolphin", "kangaroo" };
-        var allValues = values.Concat(values).OrderBy(_ => Guid.NewGuid()).ToList();
-        Cards = allValues.Select(v => new CardModel { Value = v, ImagePath = $"/images/{v}.png" }).ToList();
+        const int DesiredPairs = 10; // pick 10 unique animals from the list
+        var pairCount = Math.Min(DesiredPairs, AllAnimals.Count);
+
+        // Fisher–Yates shuffle to randomize AllAnimals locally
+        var shuffled = new List<string>(AllAnimals);
+        for (int i = shuffled.Count - 1; i > 0; i--)
+        {
+            int j = Random.Shared.Next(i + 1);
+            (shuffled[i], shuffled[j]) = (shuffled[j], shuffled[i]);
+        }
+
+        // Take first N as the random selection
+        var values = shuffled.Take(pairCount).ToList();
+
+        // Duplicate for pairs then shuffle card order
+        var allValues = values
+            .Concat(values)
+            .OrderBy(_ => Random.Shared.Next())
+            .ToList();
+
+        Cards = allValues
+            .Select(v => new CardModel { Value = v, ImagePath = $"/images/{v}.png" })
+            .ToList();
+
         Moves = 0;
         flippedIndex1 = -1;
         flippedIndex2 = -1;

@@ -1,14 +1,14 @@
 /* Basic styles for the memory card game */
 .game-board {
     display: grid;
-    grid-template-columns: repeat(4, 60px);
+    grid-template-columns: repeat(4, 100px);
     grid-gap: 10px;
     margin: 20px 0;
 }
 .card {
-    width: 60px;
-    height: 80px;
-    font-size: 2rem;
+    width: 100px;
+    height: 120px;
+    font-size: 4rem;
     background: #f0f0f0;
     border: 2px solid #888;
     border-radius: 8px;
@@ -21,8 +21,8 @@
     cursor: default;
 }
 .card img {
-  width: 44px;
-  height: 48px;
+  width: 80px;
+  height: 110px;
   object-fit: fill;
   display: block;
   margin: 0 auto;
