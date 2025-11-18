@@ -31,7 +31,7 @@ Blazer Memory Game is a simple web-based memory card game built with Blazor WebA
 
 ## Requirements
 
-- .NET 7.0 SDK or later
+- .NET 8.0 SDK or later
 
 ## License
 
