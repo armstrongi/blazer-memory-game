@@ -36,3 +36,11 @@ Blazer Memory Game is a simple web-based memory card game built with Blazor WebA
 ## License
 
 This project is for educational purposes.
+
+## Build
+
+dotnet build
+
+## Run
+
+dotnet run --project MemoryGame
